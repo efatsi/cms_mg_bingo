@@ -41,6 +41,13 @@
       draggable="false"
     >
 
+    <%# Photo counter pinned to top-right %>
+    <div
+      data-slideshow-target="counter"
+      class="absolute top-6 right-6 z-10 text-white text-lg font-semibold tracking-wide"
+      style="opacity: 0; transition: opacity 0.2s; text-shadow: 0 1px 4px rgba(0,0,0,0.6)"
+    ></div>
+
     <%# Main photo %>
     <img
       data-slideshow-target="photo"

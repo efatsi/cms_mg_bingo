@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["grid", "overlay", "photo", "floatingIcon", "floatingIconImg", "iconThumb"]
+  static targets = ["grid", "overlay", "photo", "floatingIcon", "floatingIconImg", "iconThumb", "counter"]
 
   connect() {
     this.photos = []
@@ -22,6 +22,7 @@ export default class extends Controller {
 
     this.photos = photos
     this.photoIndex = 0
+    this.updateCounter()
 
     // Prep icon thumb inside overlay (hidden until animation finishes)
     this.iconThumbTarget.src = iconSrc
@@ -72,11 +73,17 @@ export default class extends Controller {
           this.photoTarget.style.opacity = "1"
 
           this.iconThumbTarget.style.opacity = "1"
+          this.counterTarget.style.opacity = "1"
+          fi.style.transition = "opacity 0.2s"
           fi.style.opacity = "0"
           setTimeout(() => fi.classList.add("hidden"), 200)
         }, 520)
       })
     })
+  }
+
+  updateCounter() {
+    this.counterTarget.textContent = `${this.photoIndex + 1} / ${this.photos.length}`
   }
 
   advance() {
@@ -86,6 +93,8 @@ export default class extends Controller {
       this.close()
       return
     }
+
+    this.updateCounter()
 
     const photo = this.photoTarget
     photo.style.transition = "opacity 0.15s"
@@ -110,6 +119,7 @@ export default class extends Controller {
       overlay.classList.add("hidden")
       this.photoTarget.style.opacity = "0"
       this.iconThumbTarget.style.opacity = "0"
+      this.counterTarget.style.opacity = "0"
       this.gridTarget.style.pointerEvents = ""
     }, 400)
   }
